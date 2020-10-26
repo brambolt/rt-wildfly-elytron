@@ -27,5 +27,5 @@ pluginManagement {
   }
 }
 
-rootProject.name = 'rt-wildfly-elytron'
+rootProject.name = 'brambolt-rt-wildfly-elytron'
 
