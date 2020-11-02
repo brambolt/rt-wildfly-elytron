@@ -38,7 +38,7 @@ ext {
     url: 'http://www.apache.org/licenses/LICENSE-2.0.txt'
   ]]
   release = bramboltRelease
-  vcsUrl = 'https://github.com/brambolt/wildfly-elytron'
+  vcsUrl = 'https://github.com/brambolt/rt-wildfly-elytron'
 }
 
 apply plugin: 'com.brambolt.gradle.build.library'
