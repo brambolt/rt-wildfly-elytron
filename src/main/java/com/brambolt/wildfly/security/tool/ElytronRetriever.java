@@ -31,6 +31,7 @@ import org.wildfly.security.tool.ElytronToolMessages;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
@@ -77,6 +78,8 @@ public class ElytronRetriever {
             throw new RuntimeException("No secret found for requested alias", x);
         } catch (NoSuchAlgorithmException x) {
             help(parameters, options);
+            throw new RuntimeException("Internal error", x);
+        } catch (GeneralSecurityException x) {
             throw new RuntimeException("Internal error", x);
         }
         System.exit(-1);

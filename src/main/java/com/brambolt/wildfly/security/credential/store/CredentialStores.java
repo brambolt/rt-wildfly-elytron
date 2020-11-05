@@ -16,6 +16,7 @@
 
 package com.brambolt.wildfly.security.credential.store;
 
+import com.brambolt.wildfly.security.tool.Masks;
 import org.wildfly.security.auth.server.IdentityCredentials;
 import org.wildfly.security.credential.PasswordCredential;
 import org.wildfly.security.credential.store.CredentialStore;
@@ -25,9 +26,12 @@ import org.wildfly.security.password.Password;
 import org.wildfly.security.password.interfaces.ClearPassword;
 
 import java.io.File;
+import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.brambolt.wildfly.security.tool.Masks.MASK_PREFIX;
 
 public class CredentialStores {
 
@@ -36,22 +40,23 @@ public class CredentialStores {
     public static final String DEFAULT_KEY_STORE_TYPE = "JCEKS";
 
     public static CredentialStore create(File location, String password)
-        throws CredentialStoreException, NoSuchAlgorithmException {
+        throws GeneralSecurityException {
         return create(DEFAULT_CREDENTIAL_STORE_TYPE, location, password, false);
     }
 
     public static CredentialStore create(File location, String password, Boolean isNew)
-        throws CredentialStoreException, NoSuchAlgorithmException {
+        throws GeneralSecurityException {
         return create(DEFAULT_CREDENTIAL_STORE_TYPE, location, password, isNew);
     }
 
     public static CredentialStore create(String type, File location, String password)
-        throws CredentialStoreException, NoSuchAlgorithmException {
+        throws GeneralSecurityException {
         return create(type, location, password, false);
     }
 
-    public static CredentialStore create(String type, File location, String password, Boolean isNew)
-        throws CredentialStoreException, NoSuchAlgorithmException {
+    public static CredentialStore
+    create(String type, File location, String password, Boolean isNew)
+        throws GeneralSecurityException {
         return create(type, createProperties(location, isNew), createProtection(password));
     }
 
@@ -74,10 +79,15 @@ public class CredentialStores {
         return properties;
     }
 
-    public static CredentialStore.CredentialSourceProtectionParameter createProtection(String password) {
+    public static CredentialStore.CredentialSourceProtectionParameter
+    createProtection(String password)
+        throws GeneralSecurityException {
+        char[] clearPassword = (password.startsWith(MASK_PREFIX))
+            ? Masks.decryptMasked(password)
+            : password.toCharArray();
         return new CredentialStore.CredentialSourceProtectionParameter(
             IdentityCredentials.NONE.withCredential(
-                createClearPasswordCredential(password)));
+                createClearPasswordCredential(clearPassword)));
     }
 
     /**

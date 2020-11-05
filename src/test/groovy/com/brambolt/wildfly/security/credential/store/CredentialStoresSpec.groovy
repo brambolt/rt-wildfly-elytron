@@ -63,4 +63,22 @@ class CredentialStoresSpec extends Specification {
     cleanup:
     file.delete()
   }
+
+  def 'add and retrieve an alias and a secret using a masked store password'() {
+    given:
+    def file = new File(testProjectDir.root, 'elly.store.tmp2')
+    def password = 'MASK-3IbptpRLrvaVnZLbhWtghV;87654321;23'
+    def alias = 'elly.alias'
+    def secret = 'elly.secret'
+    when:
+    !file.exists()
+    def store = CredentialStores.create(file, password, true)
+    def credential = createClearPasswordCredential(secret)
+    store.store(alias, credential)
+    then:
+    file.exists()
+    secret == new String(retrieveClearPassword(store, alias))
+    cleanup:
+    file.delete()
+  }
 }
