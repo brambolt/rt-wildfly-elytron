@@ -22,7 +22,8 @@ description = 'Wildfly Elytron convenience wrapper.'
 group = 'com.brambolt.wildfly'
 
 ext {
-  artifactClassifier = wildflyElytronToolVersion
+  // Disabling, for now, but leaving in jar manifest:
+  // artifactClassifier = wildflyElytronToolVersion
   artifactId = 'brambolt-rt-wildfly-elytron'
   developers = [[
     email: 'stefan.sigurdsson@brambolt.com',
