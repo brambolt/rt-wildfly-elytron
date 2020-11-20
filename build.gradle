@@ -50,6 +50,7 @@ dependencies {
   // Avoid pulling Elytron with us - it is included in the JBoss distribution:
   compileOnly "org.wildfly.security:wildfly-elytron-tool:${wildflyElytronToolVersion}"
   implementation "com.brambolt:brambolt-rt:${version}"
+  testImplementation "org.wildfly.security:wildfly-elytron-tool:${wildflyElytronToolVersion}"
   testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
   testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
   testImplementation "org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}"
